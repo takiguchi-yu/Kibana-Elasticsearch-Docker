@@ -14,7 +14,7 @@ Embulk は Fluentd のバッチ版とも呼ばれ、 Fluentd がリアルタイ�
 * Docker Compose 1.23.2  
 * Embulk x.x
 
-
+<img width="648" alt="スクリーンショット 2019-04-28 1 00 08" src="https://user-images.githubusercontent.com/8340629/56852071-5e7c9080-6951-11e9-98f9-17bd0333430e.png">
 
 ## 前提
 
