@@ -24,8 +24,10 @@ Embulk は Fluentd のバッチ版とも呼ばれ、 Fluentd がリアルタイ�
 
 ## Kibana + Elasticsearch をインストール
 docker-compose で起動する。
+注意）Kibana の起動がめちゃくちゃく遅い。（原因不明、10分以上は待つ感じ）
+
 ```
-$ compose up -d
+$ docker-compose up -d
 ```
 ## Embulk を インストール
 Embulk v0.9シリーズはJava 8上で動作するため、これも同じく Docker でインストールする。
