@@ -23,7 +23,7 @@ Kibana + Elasticsearch は Docker で起動する。
 
 ## Kibana + Elasticsearch をインストール
 docker-compose で起動する。  
-注意）Kibana の起動がめちゃくちゃ遅い。（原因不明、10分以上は待たされる。）
+Elasticsearch がメモリを食うため、 Docker のメモリ割り当てを増やしておくことを薦める。
 
 ```
 $ docker-compose up -d
