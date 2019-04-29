@@ -116,9 +116,23 @@ $ docker-compose -v
 docker-compose version 1.24.0, build 0aa59064
 
 # このままだと実行できないので、dockerグループに追加
-$ sudo groupadd docker
 $ sudo gpasswd -a $USER docker
 $ sudo systemctl restart docker
 $ exit
 # ログインし直す
 ```
+
+## 【参考】エラーケース
+### VM 上で Elasticsearch が起動しない場合
+#### FDエラーへの対応
+```
+max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]
+```
+docker-compose の ulimits を設定
+```
+ulimits:
+  nofile:
+    soft: 65536
+    hard: 65536
+```
+参考：https://qiita.com/waytoa/items/6adbe4bdd5628419ecbf
