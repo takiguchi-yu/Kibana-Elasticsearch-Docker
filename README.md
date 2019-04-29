@@ -136,3 +136,16 @@ ulimits:
     hard: 65536
 ```
 参考：https://qiita.com/waytoa/items/6adbe4bdd5628419ecbf
+#### メモリエラーへの対応
+```
+max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+```
+カーネルパラメータを設定
+```
+$ sudo vi /etc/sysctl.d/99-sysctl.conf
+# 以下を追記
+vm.max_map_count = 262144
+
+# 設定を適用
+$ sudo sysctl --system
+```
