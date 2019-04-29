@@ -1,0 +1,17 @@
+in:
+  type: file
+  path_prefix: ./logs/vmstat-
+  decoders:
+  - {type: gzip}
+  parser:
+    type: fixed
+    columns:
+    - {name: time, type: string, pos: 0..19}
+    - {name: second, type: long, pos: 32..39}
+out:
+  type: elasticsearch
+  mode: replace
+  nodes:
+  - {host: localhost, port: 9200}
+  index: vmstat-log
+  index_type: vmstat
