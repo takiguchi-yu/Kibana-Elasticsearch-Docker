@@ -122,7 +122,7 @@ in:
   host: XXXXX1.com # リモートサーバ1 のホスト名
   port: 22
   user: XXXX-user # リモートサーバ1 のユーザー名
-  secret_key_file: /Users/hoge/XXXX.pem # リモートサーバ1 のユーザー名
+  secret_key_file: /Users/hoge/XXXX.pem # リモートサーバ1 の鍵(ローカル上のパスを指定)
   path_prefix: /vmstat # ユーザーrootディレクトリ以降を指定（左記は/home/XXXX-user/vmstatと同意義）
   decoders:
   - {type: gzip}
