@@ -64,22 +64,33 @@ source ~/.bashrc
 $ embulk -version
 embulk 0.9.17
 ```
+
+macOSの場合は、上記のやり方ではなく、brew で簡単インストールしても良い
+```
+$ brew install embulk
+```
+
 ### プラグインをインストール
 * embulk-output-elasticsearch
-  * Elasticsearch にロードする出力プラグイン  
+  * Elasticsearch にデータをロードするプラグイン  
   https://github.com/kakoni/embulk-parser-fixed
 * embulk-parser-fixed
   * 固定長データをパースするプラグイン  
   https://www.rubydoc.info/gems/embulk-output-elasticsearch/
+* embulk-input-sftp
+  * SFTPでデータを取得するプラグイン  
+  https://www.rubydoc.info/gems/embulk-input-sftp/
 
 ```
 $ embulk gem install embulk-output-elasticsearch
 $ embulk gem install embulk-parser-fixed
+$ embulk gem install embulk-input-sftp
 ```
 
-## 実行例
+## 実行例1
+ローカルに置いてあるログを Elasticsearch にロードし、Kibana で参照する。
 ### 元ファイルを準備
-1分間隔で毎時 vmstat の結果をファイルに出力
+1分間隔で毎時 vmstat の結果をファイルに出力  
 ＜＜要見直し＞＞
 ```
 $ crontab -e
@@ -94,10 +105,40 @@ $ embulk preview config.yml
 $ embulk run config.yml
 ```
 
-## 動作確認
+### 動作確認
 ちょっと汚いグラフだが、以下のような感じでグラフ化
 <img width="1481" alt="スクリーンショット 2019-04-29 20 14 56" src="https://user-images.githubusercontent.com/8340629/56892689-60faf980-6abb-11e9-83ec-9c53e645ca58.png">
 
+## 実行例2
+サーバ上のファイルを sftp で取得し、さらにまた別サーバの Elasticsearch にロードする。
+
+<img width="745" alt="スクリーンショット 2019-04-30 11 17 09" src="https://user-images.githubusercontent.com/8340629/56937750-67c85180-6b39-11e9-901c-11c8ce7a7044.png">
+
+config.yml を以下のように変更し、embulk を実行する。
+```
+config.yml
+in:
+  type: sftp
+  host: XXXXX1.com # リモートサーバ1 のホスト名
+  port: 22
+  user: XXXX-user # リモートサーバ1 のユーザー名
+  secret_key_file: /Users/hoge/XXXX.pem # リモートサーバ1 のユーザー名
+  path_prefix: /vmstat # ユーザーrootディレクトリ以降を指定（左記は/home/XXXX-user/vmstatと同意義）
+  decoders:
+  - {type: gzip}
+  parser:
+    type: fixed
+    columns:
+    - {name: time, type: string, pos: 0..19}
+    - {name: second, type: long, pos: 32..39}
+out:
+  type: elasticsearch
+  mode: replace
+  nodes:
+  - {host: XXXX2.com, port: 9200} # リモートサーバ2 のホスト名
+  index: vmstat-log
+  index_type: vmstat
+```
 
 ## 【参考】Linux に Docker をインストール
 ### docker インストール
