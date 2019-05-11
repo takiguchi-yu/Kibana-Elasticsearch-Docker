@@ -190,3 +190,30 @@ vm.max_map_count = 262144
 # 設定を適用
 $ sudo sysctl --system
 ```
+
+## 【参考】EC2 を再起動しても自動起動するようにする
+### 自動起動シェルを作成
+#### run-kibana.sh
+```
+#!bin/sh
+
+# ホスト名を設定
+sudo sed -i 's/^HOSTNAME=[a-zA-Z0-9\.\-]*$/HOSTNAME=kibana-ec2/g' /etc/sysconfig/network
+sudo hostname 'kibana-ec2'
+
+# docker グループ追加
+sudo gpasswd -a $USER docker
+sudo systemctl restart docker
+
+# docker-compose 起動
+cd /home/ec2-user/kibana
+/usr/local/bin/docker-compose up -d
+
+exit 0
+```
+
+### crontab 設定
+```
+$ crontab -e
+@reboot /bin/sh /home/ec2-user/kibana/run-kibana.sh
+```
