@@ -217,3 +217,13 @@ exit 0
 $ crontab -e
 @reboot /bin/sh /home/ec2-user/kibana/run-kibana.sh
 ```
+
+## 【参考】input の Epoch を日時変換する
+timezone 指定 且つ format を '%s' としておけばOK
+```
+in:
+parser:
+   default_timezone: 'Asia/Tokyo'
+   columns:
+   - {name: timestamp, type: timestamp, format: '%s'}
+```
