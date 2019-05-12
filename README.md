@@ -48,8 +48,8 @@ https://github.com/embulk/embulk
 
 ```
 # java をインストール
-$ sudo yum install java-1.8.0-openjdk
-$ sudo yum install java-1.8.0-openjdk-devel
+$ sudo yum install -y java-1.8.0-openjdk
+$ sudo yum install -y java-1.8.0-openjdk-devel
 $ java -version
 openjdk version "1.8.0_201"
 OpenJDK Runtime Environment (build 1.8.0_201-b09)
@@ -80,12 +80,17 @@ $ brew install embulk
 * embulk-input-sftp
   * SFTPでデータを取得するプラグイン  
   https://www.rubydoc.info/gems/embulk-input-sftp/
+* embulk-input-remote
+  * scpで複数のホストから指定したパスにあるファイル読み込むプラグイン
 
 ```
 $ embulk gem install embulk-output-elasticsearch
 $ embulk gem install embulk-parser-fixed
 $ embulk gem install embulk-input-sftp
+$ embulk gem install embulk-input-remote
 ```
+embulk のプラグイン関連は以下を参考
+https://qiita.com/hiroysato/items/da45e52fb79c39547f69
 
 ## 実行例1
 ローカルに置いてあるログを Elasticsearch にロードし、Kibana で参照する。
