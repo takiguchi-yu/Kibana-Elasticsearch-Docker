@@ -1,0 +1,46 @@
+in:
+  type: sftp
+  host: 999.999.999.999
+  port: 22
+  user: ec2-user
+  secret_key_file: /Users/XXXX/Desktop/XXXX.pem
+  path_prefix: /dstat/*.csv
+  parser:
+    charset: UTF-8
+    newline: LF
+    type: csv
+    delimiter: ','
+    quote: '"'
+    escape: '"'
+    skip_header_lines: 7
+    default_timezone: 'Asia/Tokyo'
+    columns:
+    - {name: timestamp, type: timestamp, format: '%s'} # Epoch time convert
+    - {name: cpu usr, type: double}
+    - {name: cpu sys, type: double}
+    - {name: cpu idl, type: double}
+    - {name: cpu wai, type: double}
+    - {name: cpu hiq, type: double}
+    - {name: cpu siq, type: double}
+    - {name: dsk/xvda1 read, type: double}
+    - {name: dsk/xvda1 writ, type: double}
+    - {name: load avg 1m, type: double}
+    - {name: load avg 5m, type: double}
+    - {name: load avg 15m, type: double}
+    - {name: memory used, type: double}
+    - {name: memory buff, type: double}
+    - {name: memory cach, type: double}
+    - {name: memory free, type: double}
+    - {name: net/total recv, type: double}
+    - {name: net/total send, type: double}
+    - {name: swap used, type: double}
+    - {name: swap free, type: double}
+    - {name: paging in, type: double}
+    - {name: paging out, type: double}
+out:
+  type: elasticsearch
+  mode: replace
+  nodes:
+  - {host: 999.999.999.999, port: 9200}
+  index: dstat-log
+  index_type: dstat

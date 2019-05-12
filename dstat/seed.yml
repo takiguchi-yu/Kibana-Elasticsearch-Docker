@@ -1,0 +1,8 @@
+# embulk guess seed.yml -o config.yml
+in:
+  type: file
+  path_prefix: '/{取り込みたいログが配置してあるディレクトリを指定}'
+  parser:
+    skip_header_lines: 7
+out:
+  type: stdout
