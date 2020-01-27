@@ -1,6 +1,20 @@
+# in:
+#   type: file
+#   path_prefix: ./logs/vmstat-
+#   decoders:
+#   - {type: gzip}
+#   parser:
+#     type: fixed
+#     columns:
+#     - {name: time, type: string, pos: 0..19}
+#     - {name: second, type: long, pos: 32..39}
 in:
-  type: file
-  path_prefix: ./logs/vmstat-
+  type: sftp
+  host: ec2-99-999-999-999.ap-northeast-1.compute.amazonaws.com
+  port: 22
+  user: ec2-user
+  secret_key_file: /Users/XXXXX/ZZZZZ.pem
+  path_prefix: /vmstat
   decoders:
   - {type: gzip}
   parser:
@@ -12,6 +26,6 @@ out:
   type: elasticsearch
   mode: replace
   nodes:
-  - {host: localhost, port: 9200}
+  - {host: ec2-77-777-77-777.compute-1.amazonaws.com, port: 9200}
   index: vmstat-log
   index_type: vmstat
